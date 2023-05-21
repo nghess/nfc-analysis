@@ -1,9 +1,8 @@
 import cv2
-import skimage
 import numpy as np
 import matplotlib.pyplot as plt
-import glob, os
-
+import glob
+import os
 
 # Create and visualize and image showing regions?
 draw_contours = False
@@ -32,34 +31,27 @@ def get_regions(image_bin):
 
 # Write to CSV
 def write_csv(filename, r_c, m_r_a, img_file):
-    f = open(filename, "w")
-    f = open(filename, "r").read()
-    if len(f) == 0:
-        f = open(filename, "a")
-        f.write(f"{r_c}, {m_r_a}, {img_file}")
-    else:
         f = open(filename, "a")
         f.write(f"\n{r_c}, {m_r_a}, {img_file}")
 
 # Crawl and Execute
 def collect_region_info(directory, csv_name):
-    os.getcwd()
-    os.chdir(directory)
+
+    path = f"E:/Git Repos/nfc-analysis/{directory}"
+    os.chdir(path)
+
     for file in glob.glob("*.png"):
-        image, image_bgr, image_file = load_img(f"{directory}/{file}")
+        #directory = os.getcwd()
+        #path = f"{path}/{file}"
+        #print(path)
+        image, image_bgr, image_file = load_img(file)
         region_count, mean_region_area, contours = get_regions(image)
-        os.chdir("..")
+        #os.chdir("..")
         write_csv(csv_name, region_count, mean_region_area, file)
 
+# Write CSVs with region data
 collect_region_info("fractal", "fractal_region_counts.csv")
 collect_region_info("nf_ctrl", "nf_ctrl_region_counts.csv")
-
-# Fourier analysis
-#fourier = np.fft.fft(img_bin)
-#n = img_bin.size
-#freq = np.fft.fftfreq(n)
-#print(freq)
-
 
 # Optional visualization
 if draw_contours:
