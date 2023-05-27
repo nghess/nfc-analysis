@@ -8,7 +8,7 @@ df = pd.read_csv('all_regions.csv')
 
 # Calculate the average and standard deviation of region_area per 'D' and 'condition'
 avg_region_area = df.groupby(['D', 'condition'])['region_area'].mean()
-
+print(avg_region_area)
 # Calculate the number of regions and their standard deviation per 'D' and 'condition'
 df_counts = df.groupby(['D', 'condition', 'seed']).size().reset_index(name='counts')
 std_devs = df_counts.groupby(['D', 'condition'])['counts'].std()
